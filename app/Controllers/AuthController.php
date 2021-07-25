@@ -49,6 +49,37 @@ class AuthController extends AbstractController
 
         Auth::authenticate($user->id);
         $this->redirect('home');
+    }
 
+    public function loginForm(): void
+    {
+        if (Auth::check()) {
+            $this->redirect('home');
+        }
+
+        View::render('auth.login');
+    }
+
+    public function login(): void
+    {
+        if (Auth::check()) {
+            $this->redirect('home');
+        }
+
+        $validator = Validator::get($_POST);
+        $validator->mapFieldsRules([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if ($validator->validate() && Auth::verify($_POST['email'], $_POST['password'])) {
+            $user = User::where('email', $_POST['email'])->first();
+            Auth::authenticate($user->id);
+            $this->redirect('home');
+        }
+
+        Session::addFlash(Session::ERRORS, ['Identifiants erronés']);
+        Session::addFlash(Session::OLD, $_POST);
+        $this->redirect('login.form');
     }
 }
