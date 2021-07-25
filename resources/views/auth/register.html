@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inscription | Square</title>
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-  <link rel="stylesheet" href="../dist/style.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body class="antialiased">
   <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -28,25 +28,42 @@
         </p>
       </div>
 
+      {% if errors() %}
       <div class="rounded-md bg-red-50 p-4 text-sm text-red-700">
         <ul class="list-disc pl-5 space-y-1">
+          {% for error in errors() %}
           <li>
-            Le mot de passe doit être supérieur à 8 caractères.
+            {{ error }}
           </li>
-          <li>
-            L'adresse e-mail est invalide.
-          </li>
+          {% endfor %}
         </ul>
       </div>
+      {% endif %}
 
-      <form action="" method="POST" class="flex flex-col space-y-6" novalidate>
+      <form action="{{ route('register.request') }}" method="POST" class="flex flex-col space-y-6" novalidate>
         <div class="rounded-md shadow-sm -space-y-px">
-          <input name="name" type="text" placeholder="Nom complet" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-          <input name="email" type="email" placeholder="Adresse e-mail" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-          <input name="password" type="password" placeholder="Mot de passe" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-          <input name="password_confirmation" type="password" placeholder="Confirmation du mot de passe" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          {{ csrf_field()|raw }}
+          <input name="name" type="text" value="{{ old('name') }}" placeholder="Nom complet"
+                 class="appearance-none rounded-none relative block w-full px-3 py-2 border
+                 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none
+                 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          <input name="email" type="email" value="{{ old('email') }}" placeholder="Adresse e-mail"
+                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300
+                 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500
+                 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          <input name="password" type="password" placeholder="Mot de passe"
+                 class="appearance-none rounded-none relative block w-full px-3 py-2 border
+                 border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500
+                 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          <input name="password_confirmation" type="password" placeholder="Confirmation du mot de passe"
+                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300
+                 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500
+                 focus:border-indigo-500 focus:z-10 sm:text-sm">
         </div>
-        <button type="submit" class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button type="submit"
+                class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm
+                font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
+                focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           Inscription
         </button>
       </form>
