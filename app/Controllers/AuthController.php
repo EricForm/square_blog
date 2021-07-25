@@ -82,4 +82,13 @@ class AuthController extends AbstractController
         Session::addFlash(Session::OLD, $_POST);
         $this->redirect('login.form');
     }
+
+    public function logout(): void
+    {
+        if (Auth::check()) {
+            Auth::logout();
+        }
+
+        $this->redirect('login.form');
+    }
 }
