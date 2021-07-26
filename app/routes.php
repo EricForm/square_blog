@@ -17,4 +17,6 @@ return [
 
     // User
     'home' => Route::get('/compte', [HomeController::class, 'index']),
+    'home.updateName' => Route::patch('/compte', [HomeController::class, 'updateName']),
+
 ];

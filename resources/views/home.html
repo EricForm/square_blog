@@ -14,7 +14,7 @@
   {% include "includes/header.html" %}
 
   <div class="container mx-auto md:space-y-6 px-4 md:px-6 lg:px-8 pb-16 pt-12 sm:pt-16">
-
+    {% if status() %}
     <div class="rounded-md bg-indigo-50 p-4">
       <div class="flex">
         <div class="flex-shrink-0">
@@ -26,45 +26,53 @@
         </div>
         <div class="ml-3">
           <p class="text-sm font-medium text-indigo-800">
-            Informations mises à jour !
+            {{ status() }}
           </p>
         </div>
       </div>
     </div>
+    {% endif %}
 
-    <form action="" method="POST" class="space-y-8 divide-y divide-gray-200" novalidate>
+    <form action="{{ route('home.updateName') }}" method="POST" class="space-y-8 divide-y divide-gray-200" novalidate>
       <div>
         <h3 class="text-lg leading-6 font-medium text-gray-900">
           Identité
         </h3>
         <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          {{ csrf_field()|raw }}
+          {{ method('PATCH')|raw }}
           <div class="sm:col-span-4">
             <label for="name" class="block text-sm font-medium text-gray-700">
               Nom complet
             </label>
-            <div class="mt-1">
-              <input id="name" name="name" type="text" class="block w-full sm:text-sm rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300">
-            </div>
-          </div>
-          <div class="sm:col-span-4">
-            <label for="name" class="block text-sm font-medium text-gray-700">
-              Nom complet
-            </label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <input id="name" name="name" type="text" class="block w-full sm:text-sm rounded-md shadow-sm border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500">
+            <div class="mt-1 {% if errors('name') %}relative rounded-md shadow-sm{% endif %}">
+              <input id="name" name="name" value="{{ old('name', user.name) }}" type="text"
+                     class="block w-full sm:text-sm rounded-md shadow-sm {% if errors('name') %}border-red-300
+                     text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500
+                     focus:border-red-500{% else %}focus:ring-indigo-500 focus:border-indigo-500
+                     border-gray-300{% endif %}">
+              {% if errors('name') %}
               <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                     fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012
+                  0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
               </div>
+              {% endif %}
             </div>
-            <p class="mt-2 text-sm text-red-600">Le mot de passe doit être supérieur à 8 caractères.</p>
+            {% if errors('name') %}
+            <p class="mt-2 text-sm text-red-600">{{ errors('name')[0] }}</p>
+            {% endif %}
           </div>
         </div>
       </div>
       <div class="pt-5">
         <div class="flex justify-end">
-          <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button type="submit"
+                  class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm
+                  text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
+                  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Modifier le nom
           </button>
         </div>
@@ -82,14 +90,18 @@
               Adresse e-mail
             </label>
             <div class="mt-1">
-              <input id="email" name="email" type="email" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+              <input id="email" name="email" type="email"
+                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full
+                     sm:text-sm border-gray-300 rounded-md">
             </div>
           </div>
         </div>
       </div>
       <div class="pt-5">
         <div class="flex justify-end">
-          <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button type="submit"
+                  class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm
+                  text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Modifier l'adresse e-mail
           </button>
         </div>
@@ -107,7 +119,9 @@
               Mot de passe actuel
             </label>
             <div class="mt-1">
-              <input id="password_old" name="password_old" type="password" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+              <input id="password_old" name="password_old" type="password"
+                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm
+                     border-gray-300 rounded-md">
             </div>
           </div>
           
@@ -116,7 +130,9 @@
               Mot de passe
             </label>
             <div class="mt-1">
-              <input id="password" name="password" type="password" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+              <input id="password" name="password" type="password"
+                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full
+                     sm:text-sm border-gray-300 rounded-md">
             </div>
           </div>
           
@@ -125,14 +141,19 @@
               Confirmation du mot de passe
             </label>
             <div class="mt-1">
-              <input id="password_confirmation" name="password_confirmation" type="password" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+              <input id="password_confirmation" name="password_confirmation" type="password"
+                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full
+                     sm:text-sm border-gray-300 rounded-md">
             </div>
           </div>
         </div>
       </div>
       <div class="pt-5">
         <div class="flex justify-end">
-          <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button type="submit"
+                  class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm
+                  text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
+                  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Modifier le mot de passe
           </button>
         </div>
