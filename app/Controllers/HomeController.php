@@ -75,4 +75,29 @@ class HomeController extends AbstractController
         Session::addFlash(Session::STATUS, 'Votre adresse e-mail a été mise à jour !');
         $this->redirect('home');
     }
+
+    public function updatePassword(): void
+    {
+        if (!Auth::check()) {
+            $this->redirect('login.form');
+        }
+
+        $validator = Validator::get($_POST);
+        $validator->mapFieldsRules([
+            'password_old' => ['required', 'password'],
+            'password' => ['required', ['lengthMin', 8], ['equals', 'password_confirmation']],
+        ]);
+
+        if (!$validator->validate()) {
+            Session::addFlash(Session::ERRORS, $validator->errors());
+            $this->redirect('home');
+        }
+
+        $user = Auth::get();
+        $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $user->save();
+
+        Session::addFlash(Session::STATUS, 'Votre mot de passe a été mis à jour !');
+        $this->redirect('home');
+    }
 }

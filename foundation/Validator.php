@@ -37,5 +37,10 @@ class Validator
         $validator->addRule('unique', function (string $field, mixed $value, array $params, array $fields) {
             return !Capsule::table($params[1])->where($params[0], $value)->exists();
         }, '{field} est invalide');
+
+        $validator->addRule('password', function (string $field, mixed $value, array $params, array $fields) {
+            $user = Authentication::get();
+            return password_verify($value, $user->password);
+        }, '{field} est erroné');
     }
 }
