@@ -49,4 +49,30 @@ class HomeController extends AbstractController
         Session::addFlash(Session::STATUS, 'Votre nom a été mis à jour !');
         $this->redirect('home');
     }
+
+    #[NoReturn]
+    public function updateEmail(): void
+    {
+        if (!Auth::check()) {
+            $this->redirect('login.form');
+        }
+
+        $validator = Validator::get($_POST);
+        $validator->mapFieldsRules([
+            'email' => ['required', 'email', ['unique', 'email', 'users']],
+        ]);
+
+        if (!$validator->validate()) {
+            Session::addFlash(Session::ERRORS, $validator->errors());
+            Session::addFlash(Session::OLD, $_POST);
+            $this->redirect('home');
+        }
+
+        $user = Auth::get();
+        $user->email = $_POST['email'];
+        $user->save();
+
+        Session::addFlash(Session::STATUS, 'Votre adresse e-mail a été mise à jour !');
+        $this->redirect('home');
+    }
 }

@@ -79,21 +79,36 @@
       </div>
     </form>
 
-    <form action="" method="POST" class="space-y-8 divide-y divide-gray-200" novalidate>
+    <form action="{{ route('home.updateEmail') }}" method="POST" class="space-y-8 divide-y divide-gray-200" novalidate>
       <div>
         <h3 class="text-lg leading-6 font-medium text-gray-900">
           Adresse e-mail
         </h3>
         <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          {{ csrf_field()|raw }}
+          {{ method('PATCH')|raw }}
           <div class="sm:col-span-4">
             <label for="email" class="block text-sm font-medium text-gray-700">
               Adresse e-mail
             </label>
-            <div class="mt-1">
-              <input id="email" name="email" type="email"
-                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full
-                     sm:text-sm border-gray-300 rounded-md">
+            <div class="mt-1 {% if errors('email') %}relative rounded-md shadow-sm{% endif %}">
+              <input id="email" name="email" value="{{ old('email', user.email) }}" type="email"
+                class="block w-full sm:text-sm rounded-md shadow-sm {% if errors('email') %}border-red-300
+              text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500
+              focus:border-red-500{% else %}focus:ring-indigo-500 focus:border-indigo-500 border-gray-300{% endif %}">
+              {% if errors('email') %}
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                     fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0
+                  012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              {% endif %}
             </div>
+            {% if errors('email') %}
+            <p class="mt-2 text-sm text-red-600">{{ errors('email')[0] }}</p>
+            {% endif %}
           </div>
         </div>
       </div>
