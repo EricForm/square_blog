@@ -10,10 +10,6 @@ class BaseController extends AbstractController
 {
     public function index(): void
     {
-        $faker = Factory::create();
-
-        View::render('index', [
-            'city' => $faker->city,
-        ]);
+        View::render('index');
     }
 }

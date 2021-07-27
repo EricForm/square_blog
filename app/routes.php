@@ -3,6 +3,7 @@
 use App\Controllers\AuthController;
 use App\Controllers\BaseController;
 use App\Controllers\HomeController;
+use App\Controllers\PostController;
 use SquareMvc\Foundation\Router\Route;
 
 return [
@@ -20,4 +21,8 @@ return [
     'home.updateName' => Route::patch('/compte', [HomeController::class, 'updateName']),
     'home.updateEmail' => Route::patch('/compte/email', [HomeController::class, 'updateEmail']),
     'home.updatePassword' => Route::patch('/compte/password', [HomeController::class, 'updatePassword']),
+
+    // Post
+    'posts.create' => Route::get('/posts/creer', [PostController::class, 'create']),
+    'posts.store' => Route::post('/posts/creer', [PostController::class, 'store']),
 ];
