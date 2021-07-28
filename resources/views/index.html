@@ -34,7 +34,7 @@
       <h1 class="mt-28 lg:mt-36 text-2xl sm:text-3xl xl:text-5xl xl:leading-tight lg:text-center font-bold">
         {{ posts[0].title }}
       </h1>
-      <a href="" class="self-center mt-24 lg:mt-32 block py-4 px-7 lg:px-9 lg:text-lg
+      <a href="{{ route('posts.show', {slug: posts[0].slug}) }}" class="self-center mt-24 lg:mt-32 block py-4 px-7 lg:px-9 lg:text-lg
       leading-none border border-white hover:bg-white hover:text-indigo-800 transition">
         Lire l’article
       </a>
@@ -48,7 +48,7 @@
       <img src="/img/{{ post.img }}" alt="{{ post.img }}" class="w-full">
       <div class="px-4 sm:px-6 md:px-0">
         <h1 class="mt-4 text-2xl sm:text-3xl md:text-2xl font-bold text-gray-900">
-          <a href="">{{ post.title }}</a>
+          <a href="{{ route('posts.show', {slug: post.slug}) }}">{{ post.title }}</a>
         </h1>
         <ul class="mt-6 flex space-x-8 font-bold text-sm text-gray-700">
           <li class="flex items-center leading-none">

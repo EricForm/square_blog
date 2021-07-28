@@ -23,6 +23,22 @@ class PostController extends AbstractController
         ]);
     }
 
+    /**
+     * @param string $slug
+     */
+    public function show(string $slug): void
+    {
+        try {
+            $post = Post::withCount('comments')->where('slug', $slug)->firstOrFail();
+        } catch (ModelNotFoundException) {
+            HttpException::render();
+        }
+
+        View::render('posts.show', [
+            'post' => $post,
+        ]);
+    }
+
     public function create(): void
     {
         if (!Auth::checkIsAdmin()) {
@@ -83,7 +99,7 @@ class PostController extends AbstractController
 
         Session::addFlash(Session::STATUS, 'Votre post a été publié !');
 
-        // Redirection vers posts.show lorsque ce sera en place!
+        $this->redirect('posts.show', ['slug' => $post->slug]);
     }
 
     /**
@@ -138,7 +154,8 @@ class PostController extends AbstractController
         $post->save();
 
         Session::addFlash(Session::STATUS, 'Votre post a été mis à jour !');
-        // Redirection vers posts.show lorsque ce sera en place!
+
+        $this->redirect('posts.show', ['slug' => $post->slug]);
     }
 
     /**
