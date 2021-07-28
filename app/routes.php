@@ -1,13 +1,12 @@
 <?php
 
 use App\Controllers\AuthController;
-use App\Controllers\BaseController;
 use App\Controllers\HomeController;
 use App\Controllers\PostController;
 use SquareMvc\Foundation\Router\Route;
 
 return [
-    'index' => Route::get('/', [BaseController::class, 'index']),
+    'index' => Route::get('/', [PostController::class, 'index']),
 
     // Authentication
     'register.form' => Route::get('/inscription', [AuthController::class, 'registerForm']),
