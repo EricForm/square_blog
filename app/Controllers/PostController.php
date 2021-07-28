@@ -73,6 +73,27 @@ class PostController extends AbstractController
         $this->redirect('posts.show', ['slug' => $slug]);
     }
 
+    /**
+     * @param string $slug
+     */
+    #[NoReturn]
+    public function delete(string $slug)
+    {
+        if (!Auth::checkIsAdmin()) {
+            $this->redirect('login.form');
+        }
+
+        $post = Post::where('slug', $slug)->firstOrFail();
+
+        unlink(sprintf('%s' . DIRECTORY_SEPARATOR . 'public'
+            . DIRECTORY_SEPARATOR . 'img'
+            . DIRECTORY_SEPARATOR . '%s', ROOT, $post->img));
+
+        $post->delete();
+
+        $this->redirect('index');
+    }
+
     public function create(): void
     {
         if (!Auth::checkIsAdmin()) {
