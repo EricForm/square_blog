@@ -1,5 +1,6 @@
 <?php
 
+use Gravatar\Gravatar;
 use JetBrains\PhpStorm\Pure;
 use SquareMvc\Foundation\Authentication;
 use SquareMvc\Foundation\Router\Router;
@@ -69,5 +70,14 @@ if (!function_exists('old')) {
     function old(string $key, mixed $default = null): mixed
     {
         return View::old($key, $default);
+    }
+}
+
+/* Gravatar */
+if (!function_exists('gravatar')) {
+    function gravatar(string $email): string
+    {
+        $gravatar = new Gravatar();
+        return $gravatar->avatar($email);
     }
 }

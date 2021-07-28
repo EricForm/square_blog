@@ -9,4 +9,5 @@ return [
     'title'     => 'Le titre',
     'post'      => 'Le corps du post',
     'file'      => 'Le fichier',
+    'comment'   => 'Le commentaire',
 ];

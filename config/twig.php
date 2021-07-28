@@ -10,5 +10,6 @@ return [
         'csrf_field',
         'method',
         'old',
+        'gravatar',
     ],
 ];
